@@ -6,12 +6,26 @@ function Context({children}) {
 
     const [data,setData]=useState([])
     const [inputSearch, setInputSearch]=useState('')
+    const [url, setUrl]= useState('https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=5df86bcda61f026167e87e891ae64b54')
 
     const fetchData = async() => {
-        // const response = await fetch("https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={5df86bcda61f026167e87e891ae64b54}") 
-       const response = await fetch("api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=5df86bcda61f026167e87e891ae64b54")
+       try{
+        const response = await fetch(url)
+        console.log(response)
+        if(!response.ok){
+            throw new Error(`HRTTP error! status ${response.status}`)
+
+            
+        }
         const result = await response.json()
-        setData(result.data)
+        
+        setData(result.main)
+        console.log(result)
+
+       }catch (error){
+        console.error(error)
+       }
+     
     }
 
     useEffect(()=>{
